@@ -4,5 +4,5 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <HelloWorld />
-  <img width="100px" class="bg-red-900" src="./assets/hero.png " alt="">
+  <img width="100px" class="bg-red-600" src="./assets/hero.png " alt="" />
 </template>
