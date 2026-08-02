@@ -1,8 +1,7 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <HelloWorld />
-  <img width="100px" class="bg-red-600" src="./assets/hero.png " alt="" />
+  <!-- 一级路由 -->
+  <router-view></router-view>
 </template>
+<script setup>
+import { isMobileTerminal } from './utils/flexible'
+</script>
