@@ -1,6 +1,8 @@
 <template>
-  <div>移动端路由</div>
+  <div>
+    <navigation-vue></navigation-vue>
+  </div>
 </template>
-
-<script setup></script>
-<style scoped lang="less"></style>
+<script setup>
+import navigationVue from './components/navigation/index.vue'
+</script>
