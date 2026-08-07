@@ -2,7 +2,7 @@
   <!-- 渲染一个 SVG 容器，aria-hidden="true" 对屏幕阅读器隐藏，提升可访问性 -->
   <svg aria-hidden="true">
     <!-- 通过 href 引用外部 SVG 符号（如 #icon-hamburger），fill 动态绑定颜色 -->
-    <use :href="symbolId" :fill="color"></use>
+    <use class="fillClass" :href="symbolId" :fill="color"></use>
   </svg>
 </template>
 
@@ -18,8 +18,7 @@ const props = defineProps({
 })
 
 // 显示真是的 svg 图标名称 拼接 svg 颜色类名
-const symbolId = computed(() => {
-  ;`#icon-${props.name}`
-})
+const symbolId = computed(() => `#icon-${props.name}`)
 </script>
+
 <style scoped lang="less"></style>

@@ -6,12 +6,14 @@ import { isMobileTerminal } from '@/utils/flexible'
 import mobileNavigationVue from './mobile/index.vue'
 import { getCategory } from '@/api/category.js'
 import { ref } from 'vue'
+import { ALL_CATEGORY_ITEM } from '@/constants/index.js'
 
 const categoryData = ref([])
 const getCategoryData = async () => {
   const { categorys } = await getCategory()
   categoryData.value = categorys
-  console.log(categoryData.value)
+  categoryData.value.unshift(ALL_CATEGORY_ITEM)
+  // console.log(categoryData.value)
 }
 
 getCategoryData()
