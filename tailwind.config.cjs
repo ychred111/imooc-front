@@ -12,6 +12,11 @@ module.exports = {
       // 新增自定义阴影类 shadow-l-white
       boxShadow: {
         'l-white': '-10px 0 10px white'
+      },
+      //
+      heigth: {
+        header: '72px',
+        main: 'calc(100vh - 72px)'
       }
     }
   },
