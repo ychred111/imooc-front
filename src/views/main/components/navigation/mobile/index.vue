@@ -7,6 +7,7 @@
       <!-- 汉堡按钮 -->
       <li
         class="z-20 fixed top-0 right-[1px] h-4 px-1 flex items-center bg-white shadow-l-white"
+        @click="onShowPopup"
       >
         <m-svg-icon class="w-1.5 h-1.5" name="hamburger"></m-svg-icon>
       </li>
@@ -34,6 +35,9 @@
         <!-- 滑块 -->
       </li>
     </ul>
+    <m-popup v-model="isOpenPopup">
+      <div>测试</div>
+    </m-popup>
   </div>
 </template>
 <script setup>
@@ -89,5 +93,11 @@ watch(currentCategoryIndex, (val) => {
 // item 点击事件
 const onItemClick = (index) => {
   currentCategoryIndex.value = index
+}
+
+// 控制popup的显示
+const isOpenPopup = ref(false)
+const onShowPopup = () => {
+  isOpenPopup.value = true
 }
 </script>
