@@ -44,7 +44,14 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// 输入内容实现双向数据绑定
+// 搜索按钮在hover时展示，并且为圆角
+// 一建清空文本
+// 搜索触发功能
+// 控制下拉展示区的展示
+// 事件处理
+</script>
 <style lang="scss" scoped>
 .slide-enter-active {
   transition: all 0.5s;

@@ -28,6 +28,7 @@
   </button>
 </template>
 <script>
+import { defineEmits } from 'vue'
 // 1. 构建 type 风格可选项和 size 大小可选项
 // 2. 通过 props 让开发者控制按钮
 // 3. 区分 icon button 和 text button
@@ -64,12 +65,12 @@ const sizeEnum = {
     icon: 'w-1.5 h-1.5'
   }
 }
+// 点击事件常量
+const EMITS_CLICK = 'click'
 </script>
 
 <script setup>
 import { computed } from 'vue'
-// 点击事件常量
-export const EMITS_CLICK = 'click'
 
 const props = defineProps({
   // icon 图标
@@ -129,6 +130,7 @@ const props = defineProps({
 })
 
 const emits = defineEmits([EMITS_CLICK])
+
 // 因为我们在处理 size 的 prop 时，区分了 icon 按钮 和 文字按钮，所以说在指定类名时，需要通过一个计算属性 判定是否需要增加 icon- 前缀
 // 处理大小的 key 值
 const sizeKey = computed(() => {
