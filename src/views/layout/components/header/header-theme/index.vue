@@ -1,11 +1,11 @@
 <template>
   <div>
-    <m-popover>
+    <m-popover placement="top_left">
       <template #reference>
         <!-- 换肤图标 -->
         <m-svg-icon
           name="theme-light"
-          class="guide-theme w-4 h-4 cursor-pointer rounded hover:bg-zinc-100/60"
+          class="guide-theme w-3 h-3 cursor-pointer rounded hover:bg-zinc-100/60"
         ></m-svg-icon>
       </template>
 
@@ -19,11 +19,11 @@
           <!-- 图标 -->
           <m-svg-icon
             :name="item.icon"
-            class="guide-theme w-4 h-4 cursor-pointer rounded hover:bg-zinc-100/60"
+            class="guide-theme w-2 h-2 cursor-pointer rounded hover:bg-zinc-100/60"
             fillClass="fill-zinc-900"
           ></m-svg-icon>
           <!-- 文本 -->
-          <span class="text-zinc-800 text-sm">{{ item.name }}</span>
+          <span class="text-zinc-800 text-sm ml-2">{{ item.name }}</span>
         </div>
       </div>
     </m-popover>
