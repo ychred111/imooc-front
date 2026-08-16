@@ -1,6 +1,6 @@
 <template>
   <div>
-    <m-popover placement="top_left">
+    <m-popover class="flex item-center" placement="top_left">
       <template #reference>
         <!-- 换肤图标 -->
         <m-svg-icon

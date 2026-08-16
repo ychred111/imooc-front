@@ -20,8 +20,7 @@
 </template>
 <script>
 // 延长关闭时间
-const DELAY_TIME = 1000
-
+const DELAY_TIME = 500
 const PROP_TOP_LEFT = 'top_left'
 const PROP_TOP_RIGTH = 'top_rigth'
 const PROP_BOTTON_LEFT = 'botton_left'
@@ -39,6 +38,29 @@ const placementEnum = [
 <script setup>
 import { ref, watch, nextTick } from 'vue'
 import { useElementSize } from '@vueuse/core'
+
+const props = defineProps({
+  // 控制气泡弹出的位置，并给开发者错误的提示
+  placement: {
+    type: String,
+    default: 'botton_left',
+    validator(val) {
+      const result = placementEnum.includes(val)
+      if (!result) {
+        throw new Error(
+          `你的 placementEnum 必须是 ${placementEnum.join(',')}中一种`
+        )
+      }
+      return result
+    }
+  }
+})
+
+// 计算弹层
+const contentStyle = ref({
+  top: 0,
+  left: 0
+})
 
 let timeout
 const isVisable = ref(false)
@@ -58,29 +80,6 @@ const mouseleave = () => {
   }, DELAY_TIME)
 }
 
-const props = defineProps({
-  // 控制气泡弹出的位置，并给开发者错误的提示
-  placement: {
-    type: String,
-    default: 'botton_left',
-    validator(val) {
-      const res = placementEnum.includes(val)
-      if (!res) {
-        throw new Error(
-          `你的 placementEnum 必须是 ${placementEnum.join(',')}中一种`
-        )
-      }
-      return res
-    }
-  }
-})
-
-// 计算弹层
-const contentStyle = ref({
-  top: 0,
-  left: 0
-})
-
 const contentTarget = ref(null)
 const referenceTarget = ref(null)
 
@@ -92,6 +91,38 @@ watch(isVisable, (val) => {
   // 所以我们可以通过 nextTick 函数的参数，来监听 DOM 变化之后的回调
   nextTick(() => {
     // DOM 更新完成后执行的操作
+    // switch (props.placement) {
+    //   // 左上
+    //   case PROP_TOP_LEFT:
+    //     contentStyle.value.top = 0
+    //     contentStyle.value.left =
+    //       -useElementSize(contentTarget.value).width + 'px'
+    //     break
+
+    //   // 右上
+    //   case PROP_TOP_RIGHT:
+    //     contentStyle.value.top = 0
+    //     contentStyle.value.left =
+    //       useElementSize(referenceTarget.value).width + 'px'
+    //     break
+
+    //   // 左下
+    //   case PROP_BOTTOM_LEFT:
+    //     contentStyle.value.top =
+    //       useElementSize(referenceTarget.value).height + 'px'
+    //     contentStyle.value.left =
+    //       -useElementSize(contentTarget.value).width + 'px'
+    //     break
+
+    //   // 右下
+    //   case PROP_BOTTOM_RIGHT:
+    //     contentStyle.value.top =
+    //       useElementSize(referenceTarget.value).height + 'px'
+    //     contentStyle.value.left =
+    //       useElementSize(referenceTarget.value).width + 'px'
+    //     break
+    // }
+
     switch (props.placement) {
       // 左上
       case PROP_TOP_LEFT:
@@ -99,14 +130,12 @@ watch(isVisable, (val) => {
         contentStyle.value.left =
           -useElementSize(contentTarget.value).width + 'px'
         break
-
       // 右上
       case PROP_TOP_RIGHT:
         contentStyle.value.top = 0
         contentStyle.value.left =
           useElementSize(referenceTarget.value).width + 'px'
         break
-
       // 左下
       case PROP_BOTTOM_LEFT:
         contentStyle.value.top =
@@ -114,7 +143,6 @@ watch(isVisable, (val) => {
         contentStyle.value.left =
           -useElementSize(contentTarget.value).width + 'px'
         break
-
       // 右下
       case PROP_BOTTOM_RIGHT:
         contentStyle.value.top =

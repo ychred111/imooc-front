@@ -14,7 +14,7 @@
 
       <!-- category item -->
       <li
-        v-for="(item, index) in data"
+        v-for="(item, index) in $store.getters.categorys"
         :key="item.id"
         :ref="setItemRef"
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
@@ -37,7 +37,7 @@
     </ul>
 
     <m-popup v-model="isOpenPopup">
-      <menu-vue :categorys="data" @onItemClick="onItemClick"></menu-vue>
+      <menu-vue @onItemClick="onItemClick"></menu-vue>
     </m-popup>
   </div>
 </template>
@@ -45,12 +45,6 @@
 import { ref, defineProps, watch, onBeforeUpdate } from 'vue'
 import { useScroll } from '@vueuse/core'
 import MenuVue from '@/views/main/components/menu/index.vue'
-defineProps({
-  data: {
-    type: Array,
-    required: true
-  }
-})
 
 // 滑块
 const sliderStyle = ref({

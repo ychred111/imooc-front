@@ -5,7 +5,8 @@ import router from './router'
 import { useREM } from '@/utils/flexible'
 import mLibs from './libs'
 import 'virtual:svg-icons-register'
+import store from './store'
 
 useREM() // 应用启动时执行，动态设置 rem 基准
 
-createApp(App).use(router).use(mLibs).mount('#app')
+createApp(App).use(store).use(router).use(mLibs).mount('#app')
