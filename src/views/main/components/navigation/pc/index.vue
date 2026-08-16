@@ -20,7 +20,7 @@
       <li
         v-for="(item, index) in $store.getters.categorys"
         :key="item.id"
-        class="shrink-0 px-0.5 py-0 z-10 duration-200 text-zinc-900 text-base font-bold h-4 cursor-pointer hover:bg-zinc-200 rounded mr-1 mb-1"
+        class="shrink-0 px-1.5 py-0 z-10 duration-200 last:mr-4 text-zinc-900 text-base font-bold h-4 leading-4 cursor-pointer hover:bg-zinc-200 rounded mr-1 mb-1"
         :class="{ 'text-zinc-900 bg-zinc-200': currentCategoryIndex === index }"
         @click="onItemClick(index)"
       >
