@@ -41,11 +41,12 @@ import { defineEmits } from 'vue'
 // size 可选项：表示大小可选项
 const typeEnum = {
   // 主要按钮： 白色文字 + 深灰背景（悬停更深，点击恢复）
-  primary: 'text-white bg-zinc-800 hover:bg-zinc-900 active:bg-zinc-800',
+  primary:
+    'text-white bg-zinc-800 hover:bg-zinc-900 active:bg-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-700 dark:active:bg-zinc-700',
   //主题按钮：   白色文字 + 主色背景（使用项目自定义颜色变量）
-  main: 'text-white bg-main hover:bg-hover-main active:bg-main',
+  main: 'text-white bg-main hover:bg-hover-main active:bg-main dark:bg-zinc-900 dark:hover:bg-zinc-700 dark:active:bg-zinc-700',
   // 信息按钮：  深灰文字 + 浅灰背景（悬停变深，点击恢复）
-  info: 'text-zinc-800 bg-zinc-200 hover:bg-zinc-300 active:bg-zinc-200'
+  info: 'text-zinc-800 bg-zinc-200 hover:bg-zinc-300 active:bg-zinc-200 dark:bg-zinc-300 dark:hover:bg-zinc-700 dark:active:bg-zinc-600'
 }
 const sizeEnum = {
   default: {

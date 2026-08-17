@@ -5,14 +5,15 @@
         <!-- 换肤图标 -->
         <m-svg-icon
           name="theme-light"
-          class="guide-theme w-3 h-3 cursor-pointer rounded hover:bg-zinc-100/60"
+          class="guide-theme w-3 h-3 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-900"
+          fillClass="dark:fill-zinc-300"
         ></m-svg-icon>
       </template>
 
       <!-- 弹窗 -->
       <div class="w-[140px] overflow-hidden">
         <div
-          class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60"
+          class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
           v-for="item in themeArr"
           :key="item.id"
         >
@@ -20,10 +21,12 @@
           <m-svg-icon
             :name="item.icon"
             class="guide-theme w-2 h-2 cursor-pointer rounded hover:bg-zinc-100/60"
-            fillClass="fill-zinc-900"
+            fillClass="fill-zinc-900 dark:fill-zinc-300"
           ></m-svg-icon>
           <!-- 文本 -->
-          <span class="text-zinc-800 text-sm ml-2">{{ item.name }}</span>
+          <span class="text-zinc-800 text-sm ml-2 dark:text-zinc-300">{{
+            item.name
+          }}</span>
         </div>
       </div>
     </m-popover>

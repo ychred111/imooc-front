@@ -1,4 +1,6 @@
 module.exports = {
+  // 手动切换暗模式
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{vue,js}'],
   theme: {
     extend: {
@@ -11,7 +13,8 @@ module.exports = {
       },
       // 新增自定义阴影类 shadow-l-white
       boxShadow: {
-        'l-white': '-10px 0 10px white'
+        'l-white': '-10px 0 10px white',
+        'l-zinc': '-10px 0 10px #18181b'
       },
       //
       heigth: {

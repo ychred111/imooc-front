@@ -5,7 +5,7 @@
       <transition name="fade">
         <div
           v-if="isOpen"
-          class="w-screen h-screen bg-zinc-900/80 z-40 fixed top-0 left-0"
+          class="w-screen h-screen bg-zinc-900/80 dark:bg-zinc-800 z-40 fixed top-0 left-0"
           @click="isOpen = false"
         ></div>
       </transition>

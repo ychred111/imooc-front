@@ -8,7 +8,7 @@
     <transition class="slide">
       <div
         ref="contentTarget"
-        class="absolute p-1 z-20 bg-white border rounded-md"
+        class="absolute p-1 z-20 bg-white dark:bg-zinc-900 border dark:border-zinc-700 rounded-md"
         v-show="isVisable"
         :style="contentStyle"
       >

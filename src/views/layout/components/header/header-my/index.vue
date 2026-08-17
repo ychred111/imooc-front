@@ -4,7 +4,7 @@
       <template #reference>
         <!-- 组件 -->
         <div
-          class="guide-my relative flex item-center p-0.5 rounded-sm duration-200 outline-none hover:bg-zinc-100"
+          class="guide-my relative flex item-center p-0.5 rounded-sm duration-200 outline-none hover:bg-zinc-100 dark:hover:bg-zinc-900"
         >
           <!-- 头像 -->
           <img class="w-3 h-3 rounded-sm" src="" alt="" />
@@ -12,7 +12,7 @@
           <m-svg-iocn
             class="w-1.5 h-1.5 ml-0.5"
             name="dowm-arrow"
-            fillClas="fill-zinc-900"
+            fillClas="fill-zinc-900 dark:fill-zinc-300"
           ></m-svg-iocn>
           <!-- vip 标记 -->
           <m-svg-iocn
@@ -27,14 +27,16 @@
         <div
           v-for="item in menuArr"
           :key="item.id"
-          class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60"
+          class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
         >
           <m-svg-icon
             :name="item.icon"
             class="w-1.5 h-1.5 mr-1"
-            fillClass="fill-zinc-900"
+            fillClass="fill-zinc-900 dark:fill-zinc-300"
           />
-          <span class="text-zinc-800 text-sm">{{ item.title }}</span>
+          <span class="text-zinc-800 dark:text-zinc-300 text-sm">{{
+            item.title
+          }}</span>
         </div>
       </div>
     </m-popover>
