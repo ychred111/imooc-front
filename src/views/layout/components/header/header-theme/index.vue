@@ -4,7 +4,7 @@
       <template #reference>
         <!-- 换肤图标 -->
         <m-svg-icon
-          name="theme-light"
+          :name="svgIconName"
           class="guide-theme w-3 h-3 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-900"
           fillClass="dark:fill-zinc-300"
         ></m-svg-icon>
@@ -16,6 +16,7 @@
           class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
           v-for="item in themeArr"
           :key="item.id"
+          @click="onItemClick(item)"
         >
           <!-- 图标 -->
           <m-svg-icon
@@ -35,6 +36,10 @@
 
 <script setup>
 import { THEME_DARK, THEME_LIGHT, THEME_SYSTEM } from '@/constants/index.js'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
 // 构建渲染数据源
 const themeArr = [
   {
@@ -56,5 +61,23 @@ const themeArr = [
     name: '跟随系统'
   }
 ]
+
+// 监听主题的切换行为
+// 根据行为保存当前需要展示的主题到 vuex 中,展示 header-theme 下的显示图标
+// 根据 vuex 中保存的当前主题，修改 html的 class
+
+// menu 切换事件
+const onItemClick = (themeItem) => {
+  store.commit('theme/changeThemeType', themeItem.type)
+}
+
+// 展示图标
+const svgIconName = computed(() => {
+  // 根据当前的themeType返回当前选中的icon
+  const findTheme = themeArr.find((theme) => {
+    return theme.type === store.getters.themeType
+  })
+  return findTheme?.icon
+})
 </script>
 <style scoped lang="less"></style>
