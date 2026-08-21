@@ -9,11 +9,10 @@
       :column="5"
       :picturePreReading="true"
     >
-      <item-vue
-        v-for="item in pexelsList"
-        :key="item.id"
-        :data="item"
-      ></item-vue>
+      <!-- v-slot="{ item, width }" -->
+      <template v-slot="{ item }">
+        <item-vue :data="item"></item-vue>
+      </template>
     </m-waterfull>
   </div>
 </template>
