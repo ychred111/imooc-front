@@ -17,7 +17,7 @@ module.exports = {
         'l-zinc': '-10px 0 10px #18181b'
       },
       //
-      heigth: {
+      height: {
         header: '72px',
         main: 'calc(100vh - 72px)'
       },

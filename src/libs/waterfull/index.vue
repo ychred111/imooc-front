@@ -3,13 +3,14 @@
     class="relative"
     ref="containerTarget"
     :style="{
-      height: columnHeightObj + 'px'
+      height: containerHeight + 'px'
     }"
   >
     <!-- 数据渲染 -->
     <!-- 以为列数不确定，所以需要根据列数计算每列的宽度，所以等待列宽计算完成，并且有了数据源之后进行渲染 -->
     <!-- 只有 columnWidth 计算完成且 data 有数据时才渲染列表 -->
     <!-- 每个子项使用 absolute 定位，通过 left 和 top 控制位置 -->
+    <!-- v-if="columnWidth && data.length" -->
     <template v-if="columnWidth && data.length">
       <!-- 通过动态的style 来去计算对应的列宽 left top -->
       <div
@@ -148,6 +149,8 @@ const useContainerWidth = () => {
     containerTarget.value.offsetWidth -
     parseInt(paddingLeft) -
     parseInt(paddingRight)
+
+  console.log('容器总宽度:', containerWidth.value, '列宽:', columnWidth.value)
 }
 
 // 列宽 = （容器的宽度 - 所有列间距的宽度） / 列数
@@ -168,6 +171,23 @@ const useColumnWidth = () => {
   columnWidth.value =
     (containerWidth.value - columnSpacingTotal.value) / props.column
 }
+
+// const useColumnWidth = () => {
+//   useContainerWidth()
+//   // 计算列间距
+//   const spacing = columnSpacingTotal.value
+//   // 兜底逻辑：如果间距算出来不对（NaN、大于容器宽度、或者为 0），强制重置为合理的默认值
+//   const safeSpacing =
+//     isNaN(spacing) || spacing >= containerWidth.value ? 20 : spacing
+//   // 计算列宽
+//   let width = (containerWidth.value - safeSpacing) / props.column
+//   // 再次兜底：如果算出来列宽是 0 或负数，强制给一个合理的占位宽度（比如 200）
+//   if (!width || width < 0) {
+//     width = 200
+//   }
+
+//   columnWidth.value = width
+// }
 
 onMounted(() => {
   // 计算列宽
@@ -202,8 +222,10 @@ const waitImgComplate = () => {
   // console.log(imgElements)
   // 获取所有 img 标签的图片
   const allImgs = getAllImg(imgElements)
+  console.log('🖼️ 准备开始加载图片，数量:', allImgs.length) // 【加这行】
   // console.log(allImgs)
   onComplateImgs(allImgs).then(() => {
+    console.log('✅ 图片全部加载完毕，开始获取高度！') // 【加这行】
     // 只有所有的图片都加载完毕了，浏览器才会执行这里的代码。
     // 浏览器已经把所有图片渲染出来了，每个卡片的高度已经被图片真真正正地撑开了
     // 图片加载完成，获取高度
@@ -211,6 +233,7 @@ const waitImgComplate = () => {
       // 这时候去取 el.offsetHeight，拿到的就是【包含图片的真实高度】
       itemHeights.push(el.offsetHeight)
     })
+    console.log('📏 最终获取的 itemHeights 数组是:', itemHeights) // 【加这行
     // 渲染位置
     useItemLocation()
   })
@@ -226,7 +249,7 @@ const useItemHeight = () => {
   //获取dom的高度
   // 计算 item 高度
   itemElements.forEach((el) => {
-    itemHeights.push(el.offsetHeigth)
+    itemHeights.push(el.offsetHeight)
   })
   // 渲染位置
   useItemLocation()
@@ -250,6 +273,11 @@ const useItemLocation = () => {
     // 指定的列高度的自增
     increasingHeight(index)
   })
+  // console.log('最终渲染的 data 前3项:', props.data.slice(0, 3))
+  console.log(
+    '最终渲染的 data 前3项:',
+    JSON.parse(JSON.stringify(props.data.slice(0, 3)))
+  )
   // 指定容器的高度
   containerHeight.value = getMaxHeight(columnHeightObj.value)
 }
@@ -288,6 +316,9 @@ watch(
   () => props.data,
   (newVal) => {
     nextTick(() => {
+      // 👇 1. 加上这一句！数据变了，高度变了，宽度绝对要重新算一次
+      // useColumnWidth()
+      console.log('🚀 watch触发了，新数据长度:', newVal.length) // 【加这行】
       // 第一次获取数据时，构建高度记录容器
       const resetColumnHeight = newVal.every((item) => !item._style)
       if (resetColumnHeight) {
@@ -304,6 +335,30 @@ watch(
   {
     deep: true,
     immediate: true
+  }
+)
+
+const reset = () => {
+  setTimeout(() => {
+    // 重新计算列宽
+    useColumnWidth()
+    // 重置所有的定位数据，因为 data 中进行了深度监听，所以该操作会触发 data 的 watch
+    props.data.forEach((item) => {
+      item._style = null
+    })
+  }, 200)
+}
+watch(
+  () => props.column,
+  () => {
+    if (props.picturePreReading) {
+      // 在 picturePreReading 为 true 的前提下，需要首先为列宽滞空，列宽滞空之后，会取消瀑布流渲染
+      columnWidth.value = 0
+      // 等待页面渲染之后，重新执行计算。否则在 item 没有指定过高度的前提下，计算出的 item 高度会不正确
+      nextTick(reset)
+    } else {
+      reset()
+    }
   }
 )
 </script>

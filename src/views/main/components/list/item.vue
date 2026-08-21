@@ -3,7 +3,13 @@
     <div class="relative w-full rounded cursor-zoom-in group">
       <!-- ::src="data.photo" -->
       <!-- 图片 -->
-      <img class="w-full rounded bg-transparent" :src="data.photo" />
+      <img
+        class="w-full rounded bg-transparent"
+        :src="data.photo"
+        :style="{
+          height: (width / data.photoWidth) * data.photoHeight + 'px'
+        }"
+      />
       <!-- 遮罩层 -->
       <div
         class="hidden opacity-0 w-full h-full bg-zinc-900/50 absolute top-0 left-0 rounded duration-300 group-hover:opacity-100 xl:block"
@@ -56,6 +62,10 @@ defineProps({
   data: {
     type: Object,
     required: true
+  },
+  width: {
+    type: Number,
+    default: 0
   }
 })
 </script>
