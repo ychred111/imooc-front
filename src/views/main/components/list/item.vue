@@ -59,6 +59,7 @@
 </template>
 
 <script setup>
+import { randomRGB } from '@/utils/color'
 defineProps({
   data: {
     type: Object,
