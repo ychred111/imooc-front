@@ -7,7 +7,12 @@
           class="guide-my relative flex item-center p-0.5 rounded-sm duration-200 outline-none hover:bg-zinc-100 dark:hover:bg-zinc-900"
         >
           <!-- 头像 -->
-          <img class="w-3 h-3 rounded-sm" src="@/assets/images/tx.jpg" alt="" />
+          <img
+            v-lazy
+            class="w-3 h-3 rounded-sm"
+            src="@/assets/images/tx.jpg"
+            alt=""
+          />
           <!-- 下箭头 -->
           <m-svg-icon
             class="w-1.5 h-1.5 ml-0.5"
