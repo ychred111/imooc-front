@@ -22,9 +22,9 @@
         :ref="setItemRef"
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :class="{
-          'text-zinc-100': currentCategoryIndex === index
+          'text-zinc-100': $store.getters.currentCategoryIndex === index
         }"
-        @click="onItemClick(index)"
+        @click="onItemClick(item)"
       >
         {{ item.name }}
       </li>
@@ -48,6 +48,8 @@
 import { ref, defineProps, watch, onBeforeUpdate } from 'vue'
 import { useScroll } from '@vueuse/core'
 import MenuVue from '@/views/main/components/menu/index.vue'
+import { useStore } from 'vuex'
+const store = useStore()
 
 // 滑块
 const sliderStyle = ref({
@@ -55,8 +57,6 @@ const sliderStyle = ref({
   width: '52px'
 })
 
-// 选中的 item 下标
-const currentCategoryIndex = ref(0)
 // 获取滑块的所有 item 元素
 let itemRefs = []
 const setItemRef = (el) => {
@@ -74,23 +74,28 @@ const ulTarget = ref(null)
 const { x: ulScrollLeft } = useScroll(ulTarget)
 
 // 监听选中下标变化，更新滑块位置
-watch(currentCategoryIndex, (val) => {
-  // 防御性检查：确保元素存在
-  if (!itemRefs[val]) return
-  // 获取选中元素的 left、width
-  const { left, width } = itemRefs[val].getBoundingClientRect()
-  // 为 sliderStyle 设置属性
-  ;((sliderStyle.value = {
-    // ul 横向滚动位置 + 当前元素的 left 偏移量 - 10px 偏移
-    transform: `translateX(${ulScrollLeft.value + left - 10 + 'px'})`,
-    width: width + 'px'
-  }),
-    { immediate: false }) // 禁止立即执行
-})
+//  watch 监听 getters 的时候，我们需要传递一个函数
+watch(
+  () => store.getters.currentCategoryIndex,
+  (val) => {
+    // 防御性检查：确保元素存在
+    if (!itemRefs[val]) return
+    // 获取选中元素的 left、width
+    const { left, width } = itemRefs[val].getBoundingClientRect()
+    // 为 sliderStyle 设置属性
+    ;((sliderStyle.value = {
+      // ul 横向滚动位置 + 当前元素的 left 偏移量 - 10px 偏移
+      transform: `translateX(${ulScrollLeft.value + left - 10 + 'px'})`,
+      width: width + 'px'
+    }),
+      { immediate: false }) // 禁止立即执行
+  }
+)
 
 // item 点击事件
-const onItemClick = (index) => {
-  currentCategoryIndex.value = index
+const onItemClick = (item) => {
+  console.log(1111)
+  store.commit('app/changeCurrentCategory', item)
   isOpenPopup.value = false
 }
 
