@@ -44,7 +44,7 @@
     <!-- 下拉区 -->
     <transition name="slide">
       <div
-        class="max-h-[368px] w-full text-base overflow-auto bg-slate-700 dark:bg-zinc-800 absolute z-20 left-0 top-[56px] p-2 rounded border-border-zinc-200 dark:border-border-zinc-600 duration-200 hover:shadow-3xl"
+        class="max-h-[368px] w-full text-base overflow-auto bg-zinc-200 dark:bg-zinc-800 absolute z-20 left-0 top-[56px] p-2 rounded border-border-zinc-200 dark:border-border-zinc-600 duration-200 hover:shadow-3xl"
         v-if="$slots.dropdown"
         v-show="isFocus"
       >
