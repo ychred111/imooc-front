@@ -11,6 +11,9 @@
 //   }
 // }
 
+export { confirm } from './confirm'
+export { message } from './message'
+
 //自动组件注册
 import { defineAsyncComponent } from 'vue'
 export default {

@@ -13,6 +13,9 @@
       />
       <!-- 遮罩层 -->
       <div
+        :style="{
+          height: (width / data.photoWidth) * data.photoHeight + 'px'
+        }"
         class="hidden opacity-0 w-full h-full bg-zinc-900/50 absolute top-0 left-0 rounded duration-300 group-hover:opacity-100 xl:block"
       >
         <!-- 分享 -->
@@ -31,6 +34,7 @@
           size="small"
           icon="download"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="onDownload"
         />
         <!-- 全屏 -->
         <m-button
@@ -43,7 +47,7 @@
       </div>
       <!-- 标题 -->
       <p
-        class="text-sm mt-1 font-bold text-zinc-900 dark:text-zinc-300 line-clamp-2 px-1"
+        class="text-sm mt-1 font-bold text-zinc-900 dark:text-zinc-300 line-clamp-2"
         alt
       >
         {{ data.title }}
@@ -60,7 +64,9 @@
 
 <script setup>
 import { randomRGB } from '@/utils/color'
-defineProps({
+import { saveAs } from 'file-saver'
+import { message } from '@/libs'
+const props = defineProps({
   data: {
     type: Object,
     required: true
@@ -70,5 +76,20 @@ defineProps({
     default: 0
   }
 })
+
+// 点击下载事件
+const onDownload = () => {
+  // 提示消息
+  message('success', '图片开始下载')
+  // 延迟一段时间执行，可以得到更好的体验
+  setTimeout(() => {
+    /**
+     * 接收两个参数：
+     * 1. 下载的图片链接
+     * 2. 下载的文件名称
+     */
+    saveAs(props.data.photo, `${props.data.title} - 作者：${props.data.author}`)
+  }, 100)
+}
 </script>
 <style scoped lang="less"></style>
