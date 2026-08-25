@@ -53,6 +53,8 @@ const onItemClick = (item) => {
 
 // 单个删除
 const onDeleteClick = (index) => {
+  console.log('单个删除')
+
   store.commit('search/deleteHistory', index)
 }
 </script>

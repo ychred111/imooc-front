@@ -39,9 +39,9 @@ const onSearchHandler = (val) => {
   if (val) {
     // 保存历史记录
     store.commit('search/addHistory', val)
-    console.log('触发 searchText 变化')
+    // console.log('触发 searchText 变化')
     // 触发 searchText 变化
-    // store.commit('app/changeSearchText', val)
+    store.commit('app/changeSearchText', val)
   }
 }
 </script>
