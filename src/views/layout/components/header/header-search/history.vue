@@ -33,7 +33,7 @@ const EMITS_ITEM_CLICK = 'itemClick'
 </script>
 
 <script setup>
-// import { confirm } from '@/libs'
+import { confirm } from '@/libs/confirm/index'
 import { useStore } from 'vuex'
 const store = useStore()
 
@@ -41,7 +41,9 @@ const emits = defineEmits([EMITS_ITEM_CLICK])
 
 // 删除全部
 const onDeleteAllClick = () => {
-  store.commit('search/deleteAllHistory')
+  confirm('要删除所有历史记录吗？').then(() => {
+    store.commit('search/deleteAllHistory')
+  })
 }
 
 // 单个搜索
