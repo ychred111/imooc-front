@@ -10,6 +10,7 @@
         :style="{
           height: (width / data.photoWidth) * data.photoHeight + 'px'
         }"
+        ref="imgTarget"
       />
       <!-- 遮罩层 -->
       <div
@@ -43,6 +44,7 @@
           size="small"
           icon="full"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="onImgFullScreen"
         />
       </div>
       <!-- 标题 -->
@@ -66,6 +68,8 @@
 import { randomRGB } from '@/utils/color'
 import { saveAs } from 'file-saver'
 import { message } from '@/libs'
+import { ref } from 'vue'
+import { useFullscreen, useElementBounding } from '@vueuse/core'
 const props = defineProps({
   data: {
     type: Object,
@@ -91,5 +95,11 @@ const onDownload = () => {
     saveAs(props.data.photo, `${props.data.title} - 作者：${props.data.author}`)
   }, 100)
 }
+
+//全屏
+// 1. 定义一个 ref 用来绑定目标 DOM 元素
+const imgTarget = ref(null)
+// // 2. 传入这个 ref，解构出 enter 方法
+const { enter: onImgFullScreen } = useFullscreen(imgTarget)
 </script>
 <style scoped lang="less"></style>

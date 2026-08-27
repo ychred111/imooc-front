@@ -22,9 +22,13 @@ export const confirm = (
       title = ''
     }
 
+    // 1. 👇 创建专属容器
+    const container = document.createElement('div')
     // 关闭弹层事件
     const close = () => {
-      render(null, document.body)
+      // 2. 👇 只卸载自己，不碰别人！
+      render(null, container)
+      container.remove()
     }
 
     // 取消按钮事件
