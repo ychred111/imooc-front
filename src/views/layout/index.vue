@@ -8,7 +8,7 @@
 
 <script setup>
 import headerVue from './components/header/index.vue'
-import flotingVue from './components/floting.vue'
+import flotingVue from '@/views/layout/components/floating/index.vue'
 import mainVue from './components/main.vue'
 </script>
 <style scoped lang="less"></style>
