@@ -24,3 +24,12 @@ export const getProfile = (data) => {
     data
   })
 }
+
+// 注册
+export const registerUser = (data) => {
+  return request({
+    url: '/sys/register',
+    method: 'POST',
+    data
+  })
+}
