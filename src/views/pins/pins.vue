@@ -36,7 +36,7 @@
         :src="pexelData.photo"
       />
       <div
-        class="xl:w-2/5 xl:h-full xl:bg-white xl:dark:bg-zinc-900 xl:rounded-tr-lg xl:rounded-br-lg xl:p-3"
+        class="xl:w-2/5 xl:h-full xl:bg-white xl:dark:bg-zinc-900 xl:r·ounded-tr-lg xl:rounded-br-lg xl:p-3"
       >
         <div v-if="!isMobileTerminal" class="flex justify-between mb-2">
           <m-svg-icon

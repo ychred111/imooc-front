@@ -4,13 +4,14 @@
       <template #reference>
         <!-- 组件 -->
         <div
+          v-if="$store.getters.token"
           class="guide-my relative flex item-center p-0.5 rounded-sm duration-200 outline-none hover:bg-zinc-100 dark:hover:bg-zinc-900"
         >
           <!-- 头像 -->
           <img
             v-lazy
             class="w-3 h-3 rounded-sm"
-            src="@/assets/images/tx.jpg"
+            :src="$store.getters.userInfo.avatar"
             alt=""
           />
           <!-- 下箭头 -->
@@ -21,18 +22,30 @@
           ></m-svg-icon>
           <!-- vip 标记 -->
           <m-svg-icon
+            v-if="$store.getters.userInfo.vipLevel"
             class="w-1.5 h-1.5 absolute right-[16px] bottom-0"
             name="vip"
           ></m-svg-icon>
         </div>
+
+        <!-- 登陆按钮 -->
+        <div v-else>
+          <m-button
+            class="guide-my"
+            icon="profile"
+            iconColor="#fff"
+            @click="onToLogin"
+          ></m-button>
+        </div>
       </template>
 
       <!-- 弹窗 -->
-      <div class="w-[140px] overflow-hidden">
+      <div class="w-[140px] overflow-hidden" v-if="$store.getters.token">
         <div
           v-for="item in menuArr"
           :key="item.id"
           class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
+          @click="onItemClick(item.path)"
         >
           <m-svg-icon
             :name="item.icon"
@@ -49,6 +62,10 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import { confirm } from '@/libs'
+import { useStore } from 'vuex'
+const store = useStore()
 // 构建 menu 数据源
 const menuArr = [
   {
@@ -70,5 +87,29 @@ const menuArr = [
     path: ''
   }
 ]
+
+// 登陆点击事件
+const router = useRouter()
+const onToLogin = () => {
+  router.push('/login')
+}
+
+/**
+ * menu Item 点击事件，也可以根据其他的 key 作为判定，比如 name
+ */
+const onItemClick = (path) => {
+  // 有路径则进行路径跳转
+  if (path) {
+    // 配置跳转方式
+    store.commit('app/changeRouterType', 'push')
+    router.push(path)
+    return
+  }
+  // 无路径则为退出登录
+  confirm('您确定要退出登录吗？').then(() => {
+    // 退出登录不存在跳转路径
+    store.dispatch('user/logout')
+  })
+}
 </script>
 <style scoped lang="less"></style>

@@ -6,6 +6,7 @@ import category from './modules/category'
 import theme from './modules/theme'
 import app from './modules/app'
 import search from './modules/search'
+import user from './modules/user'
 
 // 创建一个新的 store 实例
 const store = createStore({
@@ -14,14 +15,15 @@ const store = createStore({
     category,
     theme,
     app,
-    search
+    search,
+    user
   },
   plugins: [
     createPersistedState({
       // 保存到 localStorage 中的数据
       key: 'imooc-front',
       // 需要保存的模块
-      paths: ['category', 'theme', 'search']
+      paths: ['category', 'theme', 'search', 'user']
     })
   ]
 })

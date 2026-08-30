@@ -22,5 +22,9 @@ export default {
       return 'none'
     }
     return state.app.routerType
-  }
+  },
+  // token
+  token: (state) => state.user.token,
+  //用户信息
+  userInfo: (state) => state.user.userInfo
 }

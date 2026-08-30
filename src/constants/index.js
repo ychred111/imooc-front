@@ -75,3 +75,6 @@ export const THEME_DARK = 'dark'
 export const THEME_LIGHT = 'light'
 // 系统主题
 export const THEME_SYSTEM = 'system'
+
+// 登陆方式
+export const LOGIN_TYPE_USERNAME = 'username'
