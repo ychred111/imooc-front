@@ -14,5 +14,13 @@ export default {
   // 搜索历史
   historys: (state) => state.search.historys,
   // 搜索文本
-  searchText: (state) => state.app.searchText
+  searchText: (state) => state.app.searchText,
+  // 路由跳转方式
+  routerType: (state) => {
+    // 在 PC 端下，永远为 none
+    if (!isMobileTerminal.value) {
+      return 'none'
+    }
+    return state.app.routerType
+  }
 }

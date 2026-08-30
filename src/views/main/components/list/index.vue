@@ -18,10 +18,23 @@
       >
         <!-- v-slot="{ item, width }" -->
         <template v-slot="{ item, width }">
-          <item-vue :data="item" :width="width"></item-vue>
+          <item-vue :data="item" :width="width" @click="onToPins"></item-vue>
         </template>
       </m-waterfull>
     </m-infinite-list>
+
+    <!-- 大图详情处理 -->
+    <!-- 使用 pins-vue组件 \
+     利用 transition 包裹
+     在利用三个钩子绑定对应的状态 -->
+    <transition
+      :css="false"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+    >
+      <pins-vue v-if="isVisiblePins" :id="currentPins.id" />
+    </transition>
   </div>
 </template>
 
@@ -31,6 +44,9 @@ import { getPexelsList } from '@/api/pexels'
 import itemVue from './item.vue'
 import { isMobileTerminal } from '@/utils/flexible.js'
 import { useStore } from 'vuex'
+import { useEventListener } from '@vueuse/core'
+import pinsVue from '@/views/pins/index.vue'
+import gsap from 'gsap'
 
 const store = useStore()
 
@@ -110,4 +126,58 @@ watch(
     })
   }
 )
+
+// 控制 pins 展示
+const isVisiblePins = ref(false)
+
+// 当前选中的 pins 属性
+const currentPins = ref({})
+
+/**
+ * 进入 pins
+ */
+const onToPins = (item) => {
+  // 改变地址栏地址，但是不进行跳转
+  history.pushState(null, null, `/pins/${item.id}`)
+  // 点击的item等于当前的item
+  currentPins.value = item
+  // 打开 isVisiblePins 展示 pins-vue
+  isVisiblePins.value = true
+}
+
+useEventListener(window, 'popstate', () => {
+  isVisiblePins.value = false
+})
+
+const beforeEnter = (el) => {
+  gsap.set(el, {
+    scaleX: 0,
+    scaleY: 0,
+    transformOrigin: '0 0',
+    translateX: currentPins.value.localtion?.translateX,
+    translateY: currentPins.value.localtion?.translateY,
+    opacity: 0
+  })
+}
+const enter = (el, done) => {
+  gsap.to(el, {
+    duration: 0.3,
+    scaleX: 1,
+    scaleY: 1,
+    opacity: 1,
+    translateX: 0,
+    translateY: 0,
+    onComplete: done
+  })
+}
+const leave = (el, done) => {
+  gsap.to(el, {
+    duration: 0.3,
+    scaleX: 0,
+    scaleY: 0,
+    x: currentPins.value.localtion?.translateX,
+    y: currentPins.value.localtion?.translateY,
+    opacity: 0
+  })
+}
 </script>

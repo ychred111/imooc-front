@@ -1,6 +1,9 @@
 <template>
   <div class="bg-white dark:bg-zinc-900 xl:dark:bg-zinc-800 rounded pb-1">
-    <div class="relative w-full rounded cursor-zoom-in group">
+    <div
+      class="relative w-full rounded cursor-zoom-in group"
+      @click="onToPinsClick"
+    >
       <!-- ::src="data.photo" -->
       <!-- 图片 -->
       <img
@@ -8,7 +11,8 @@
         class="w-full rounded bg-transparent"
         :src="data.photo"
         :style="{
-          height: (width / data.photoWidth) * data.photoHeight + 'px'
+          height: (width / data.photoWidth) * data.photoHeight + 'px',
+          backgroundColor: randomRGB()
         }"
         ref="imgTarget"
       />
@@ -68,7 +72,7 @@
 import { randomRGB } from '@/utils/color'
 import { saveAs } from 'file-saver'
 import { message } from '@/libs'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useFullscreen, useElementBounding } from '@vueuse/core'
 const props = defineProps({
   data: {
@@ -96,10 +100,40 @@ const onDownload = () => {
   }, 100)
 }
 
+/**
+ * pins 跳转处理，记录图片的中心点 (X|Y位置 + 宽|高的一半)
+ *
+ */
+const imgContainerCenter = () => {
+  const {
+    x: imgContainerX,
+    y: imgContainerY,
+    width: imgContainerWidth,
+    height: imgContainerHeight
+  } = imgTarget.value.getBoundingClientRect()
+  return {
+    translateX: parseInt(imgContainerX + imgContainerWidth / 2),
+    translateY: parseInt(imgContainerY + imgContainerHeight / 2)
+  }
+}
+
 //全屏
 // 1. 定义一个 ref 用来绑定目标 DOM 元素
 const imgTarget = ref(null)
 // // 2. 传入这个 ref，解构出 enter 方法
 const { enter: onImgFullScreen } = useFullscreen(imgTarget)
+
+const emits = defineEmits(['click'])
+/**
+ * 进入详情点击事件
+ */
+const onToPinsClick = () => {
+  console.log(1111)
+  // 通知父组件传递参数 调用监听的click事件 触发对应事件
+  emits('click', {
+    id: props.data.id,
+    localtion: imgContainerCenter()
+  })
+}
 </script>
 <style scoped lang="less"></style>
