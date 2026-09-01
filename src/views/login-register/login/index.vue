@@ -116,7 +116,7 @@ const isSliderCaptchaVisible = ref(false)
 // 登陆触发
 const onLoginHandler = () => {
   isSliderCaptchaVisible.value = true
-  console.log('1111')
+  // console.log('1111')
 }
 
 /**
@@ -125,7 +125,7 @@ const onLoginHandler = () => {
 const onCaptchaSuccess = async () => {
   // 登录操作
   onLogin()
-  store.dispatch('user/profile')
+  // store.dispatch('user/profile')
 }
 
 /**
@@ -133,12 +133,13 @@ const onCaptchaSuccess = async () => {
  */
 const onLogin = async () => {
   loading.value = true
-  //   用户登陆执行
+  // 执行登录操作
   try {
     await store.dispatch('user/login', {
       ...loginForm.value,
       loginType: LOGIN_TYPE_USERNAME
     })
+    await store.dispatch('user/profile')
   } finally {
     loading.value = false
   }

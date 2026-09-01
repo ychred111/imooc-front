@@ -41,7 +41,6 @@ export default {
     // 获取用户信息
     async profile(context) {
       const data = await getProfile()
-      // console.log(data)
       context.commit('setUserInfo', data)
       message(
         'success',
