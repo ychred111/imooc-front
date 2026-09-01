@@ -103,6 +103,7 @@ const onItemClick = (path) => {
     // 配置跳转方式
     store.commit('app/changeRouterType', 'push')
     router.push(path)
+
     return
   }
   // 无路径则为退出登录
