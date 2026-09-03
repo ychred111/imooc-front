@@ -9,6 +9,7 @@ import 'virtual:svg-icons-register'
 import store from './store'
 import useTheme from '@/utils/theme'
 import mDirective from './directives'
+import './permission'
 
 useREM() // 应用启动时执行，动态设置 rem 基准
 useTheme() //   初始化主题
