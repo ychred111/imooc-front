@@ -136,39 +136,42 @@
     </div>
 
     <!-- PC 端 -->
-    <!-- <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
-      <change-avatar-vue
+    <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
+      <ChangeAvatar
         :blob="currentBolb"
         @close="isDialogVisible = false"
-      ></change-avatar-vue>
-    </m-dialog> -->
+      ></ChangeAvatar>
+    </m-dialog>
+
     <!-- 移动端 -->
-    <!-- <m-popup
+    <m-popup
       v-else
       :class="{ 'h-screen': isDialogVisible }"
       v-model="isDialogVisible"
     >
-      <change-avatar-vue
+      <ChangeAvatar
         :blob="currentBolb"
         @close="isDialogVisible = false"
-      ></change-avatar-vue>
-    </m-popup> -->
+      ></ChangeAvatar>
+    </m-popup>
   </div>
 </template>
 
 <script setup>
 import { isMobileTerminal } from '@/utils/flexible'
-import { confirm } from '@/libs'
+// import { confirm } from '@/libs'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ref, computed } from 'vue'
-import { putProfile } from '@/api/sys'
-import { message } from '@/libs'
+import { ref, computed, nextTick, onMounted, watch } from 'vue'
+import ChangeAvatar from './components/change-avatar.vue'
+// import { putProfile } from '@/api/sys'
+// import { message } from '@/libs'
 
 const store = useStore()
 const router = useRouter()
 // 隐藏域
 const inputFileTarget = ref(null)
+
 /**
  * 更换头像点击事件
  */
@@ -179,7 +182,21 @@ const onAvatarClick = () => {
 /**
  * 头像选择之后的回调
  */
-const onSelectImgHandler = () => {}
+
+// 控制 dialog 的显示
+const isDialogVisible = ref(false)
+
+// 选中的图片
+const currentBolb = ref('')
+const onSelectImgHandler = () => {
+  // 获取选中的文件
+  const imgFile = inputFileTarget.value.files[0]
+  //   生成 blod 对象
+  const blob = URL.createObjectURL(imgFile)
+  console.log(blob)
+  currentBolb.value = blob
+  isDialogVisible.value = true
+}
 
 /**
  * 移动端后退处理
@@ -231,6 +248,18 @@ const onLogoutClick = () => {
 // 创建一个数据的本地副本，把vuex里面的数据给他
 // 然后再把vuex里面的数据提交给后端
 // 提交到后端之后再把用户输入到数据保存到vuex里面
+
+// 1. 本地草稿箱（用来绑定 v-model，允许用户随便改）
+// 2. 自动回显：只要 Store 里的数据变了，就同步到本地草稿箱（并触发保存按钮）
+// watch(
+//   () => store.getters.userInfo,
+//   (newVal) => {
+//     // 注意：这里用展开符 ...，把 Store 数据放进草稿箱
+//     userInfo.value = { ...newVal }
+//   },
+//   { immediate: true } // 页面一加载，立刻执行一次
+// )
+
 const loading = ref(false)
 const userInfo = ref(store.getters.userInfo)
 const onChangeProfile = async () => {

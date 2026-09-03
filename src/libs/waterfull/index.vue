@@ -284,7 +284,7 @@ const useItemLocation = () => {
 
 // 在组件销毁的时候 清除所以对 _style
 onUnmounted(() => {
-  data.props.forEach((item) => {
+  props.data.forEach((item) => {
     delete item._style
   })
 })

@@ -26,5 +26,10 @@ export default [
     meta: {
       user: true
     }
+  },
+  {
+    path: '/cs',
+    name: 'cs',
+    component: () => import('@/views/cs/index.vue')
   }
 ]
